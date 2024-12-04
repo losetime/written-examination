@@ -1,43 +1,36 @@
 <template>
-  <div class="home-wrapper">
-    <div class="content-wrap">
-      <Header />
-      <a-tabs v-model:activeKey="activeKey" type="card">
-        <a-tab-pane key="1" tab="计算器">
-          <Calculator />
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="记事本" force-render>
-          <Notepad />
-        </a-tab-pane>
-      </a-tabs>
-    </div>
-  </div>
+  <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" theme="dark" @select="handleSelect" />
+  <a-config-provider :locale="locale">
+    <router-view />
+  </a-config-provider>
 </template>
 
-<script setup>
-import {ref} from "vue";
-import Header from "./components/Header.vue";
-import Calculator from "./components/Calculator.vue";
-import Notepad from "./components/Notepad.vue";
+<script lang="ts" setup>
+import { h, ref } from 'vue';
+import { MailOutlined, AppstoreOutlined } from '@ant-design/icons-vue';
+import { MenuProps } from 'ant-design-vue';
+import {useRouter} from "vue-router";
 
-const activeKey = ref('1')
+const router = useRouter();
+const current = ref<string[]>(['Screen']);
+const items = ref<MenuProps['items']>([
+  {
+    key: 'Screen',
+    icon: () => h(MailOutlined),
+    label: '界面开发题',
+    title: '界面开发题',
+  },
+  {
+    key: 'Algorithm',
+    icon: () => h(AppstoreOutlined),
+    label: '算法题',
+    title: '算法题',
+  },
+]);
+
+const handleSelect = ({ item, key, selectedKeys }) => {
+  console.log(item, key, selectedKeys);
+  router.push({ name: key });
+}
 </script>
 
-<style scoped lang="less">
-.home-wrapper {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  .content-wrap {
-    min-width: 360px;
-    ::v-deep(.ant-tabs) {
-      margin-top: 12px;
-      .ant-tabs-content-holder {
-        min-height: 400px;
-      }
-    }
-  }
-}
-</style>
