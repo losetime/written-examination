@@ -1,29 +1,73 @@
-# calculator_and_notepad
+# 概述
+该项目完成了计算器，记事本小工具以及一道算法题，使用到了:
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue3
 
-## Recommended IDE Setup
+vue-router：路由
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+dayjs: 处理时间
 
-## Customize configuration
+nanoid: 生成id
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+bignumber: 数学计算
 
-## Project Setup
+ant-design-vue： UI框架
 
-```sh
-pnpm install
-```
+# 一. 界面开发题
 
-### Compile and Hot-Reload for Development
+## 公共表头
 
-```sh
-pnpm dev
-```
+通过定时回调，用来实现时间的实时刷新。 
+通过高德提供的天气接口，获取到咸阳的天气情况，5分钟动态刷新一次。
 
-### Compile and Minify for Production
+## 1. 计算器
+    
+计算器的布局主要分为显示部分以及输入部分，输入部分分为左右布局，运算符号单独分开，以便后期计算时方便。
 
-```sh
-pnpm build
-```
+用户输入过程要处理的问题：
+1. 小数点和运算符不能重复
+2. 用户直接输入小数点和运算符的问题
+3. 用户直接输入等号，或者运算公式不成立时输入等号
+4. 当用户输入小数点后直接添加运算符的问题
+5. 处理连续运算的问题
+
+显示问题：
+1. 当用户输入计算参数是，计算公式高亮。当有了计算结果时，计算公式上浮，并降低颜色亮度，让用户更关注计算结果。
+2. 提示可以输入的最大值
+
+计算问题：
+1. 计算机进制转换问题，在计算小数时会出现精度丢失问题。
+2. JS最大安全数为2^53 - 1，超出范围精度会丢失。
+
+## 2. 记事本
+
+该记事本分为上下两部分，上面为输入部分，输入可以满足输入多个事项同时添加。下面为列表显示部分，列表超出高度可以滚动。
+
+#### 添加事项
+添加事项可以同时输入多个，输入一个后通过Enter键或者丢失焦点来生成一个tag，然后通过添加按钮批量加入列表。
+并可以通过tag的删除按钮进行删除，也可以通过清除按钮批量删除。
+
+#### 事项列表
+事项列表可以点击【完成】后修改状态，事项在任何状态下都可以被删除。
+
+# 二. 算法题
+
+该问题是一个最优解问题，我可以通过穷举法，把所有情况都列出来。
+
+当$A * i + $B * j === $T 命中时，则直接返回0。
+
+当以上条件不成立时，则要考虑最小浪费情况，通过比较不断更新minNum，来最终获得一个最小浪费数。
+
+在此基础上尽量减少无效循环。
+
+### 测试用例
+
+| 序号 | $A | $B | $T | 期望输出 |
+|-----|-----|-----|-----|-----|
+| 1 | 2 | 4 | 11 | 1 |
+| 2 | 3 | 5 | 11 | 1 |
+| 3 | 3 | 5 | 8 | 0 |
+| 4 | 2 | 3 | 6 | 0 |
+| 5 | 2 | 2 | 3 | 1 |
+| 6 | 4 | 6 | 8 | 0 |
+| 9 | 1 | 1 | 5 | 0 |

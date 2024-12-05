@@ -130,6 +130,10 @@ const handleClear = () => {
 const getResult = () => {
   if (calcParamRight.value) {
     try {
+      const reg = /(\d+)\.(?=\d*)/g;
+      // 处理当用户输入小数点后直接添加运算符
+      calcParamLeft.value = calcParamLeft.value.replace(reg, '$1')
+      calcParamRight.value = calcParamRight.value.replace(reg, '$1')
       calcResult.value = new BigNumber(calcParamLeft.value)[operatorDict(operatorKey.value)](calcParamRight.value)
     } catch (e) {
       calcResult.value = ''

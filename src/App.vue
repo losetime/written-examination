@@ -1,6 +1,6 @@
 <template>
-  <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" theme="dark" @select="handleSelect" />
-  <a-config-provider :locale="locale">
+  <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" theme="dark" @click="handleSelect" />
+  <a-config-provider>
     <router-view />
   </a-config-provider>
 </template>
@@ -28,8 +28,7 @@ const items = ref<MenuProps['items']>([
   },
 ]);
 
-const handleSelect = ({ item, key, selectedKeys }) => {
-  console.log(item, key, selectedKeys);
+const handleSelect = ({ key }) => {
   router.push({ name: key });
 }
 </script>
